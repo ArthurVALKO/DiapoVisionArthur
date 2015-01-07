@@ -130,8 +130,8 @@ public class JfStructure extends javax.swing.JFrame {
             FullScreen fs = new FullScreen();
             JpViniette pViniette = (JpViniette) panelListe.getComponent(0);
             ;
-            fs.setImages(JpViniette.getImages(panelListe));
             fs.start();
+            fs.setImages(JpViniette.getImages(panelListe));
         }
     }//GEN-LAST:event_btPlayActionPerformed
 

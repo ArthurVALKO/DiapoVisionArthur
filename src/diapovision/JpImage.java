@@ -31,7 +31,7 @@ public class JpImage extends javax.swing.JPanel {
         redimention(image.getWidth(), image.getHeight());
     }
 
-    public Image getImage() {
+    public BufferedImage getImage() {
         return image;
     }
 
