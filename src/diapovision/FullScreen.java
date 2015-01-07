@@ -21,7 +21,7 @@ public class FullScreen extends javax.swing.JFrame implements ActionListener {
     private JpImage[] imgs;
     private  Timer  timer;
     private int delay = 3;
-    
+    private int t = 0;
     /**
      * Creates new form FullScreen
      */
@@ -193,7 +193,9 @@ public class FullScreen extends javax.swing.JFrame implements ActionListener {
     
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(((int)(timer.getDelay()/1000))%delay==0){
+        t++;
+        if(t==delay){
+            t=0;
             int i = getPos();
             if(i==imgs.length){
                 changeImage(imgs[0]);
