@@ -9,10 +9,13 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import layout.VerticalFlowLayout;
@@ -28,7 +31,11 @@ public class JpViniette extends javax.swing.JPanel {
         for(Component c : panelListe.getComponents()){
             if(c instanceof JpViniette){
                 JpViniette v = (JpViniette) c;
-                l.add(v.pImg);
+                try {
+                    l.add(v.pImg.originalImage());
+                } catch (IOException ex) {
+                    Logger.getLogger(JpViniette.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
         return (JpImage[]) l.toArray(new JpImage[l.size()]);
