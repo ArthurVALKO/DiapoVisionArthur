@@ -140,6 +140,7 @@ public class FullScreen extends javax.swing.JFrame {
     private void changeImage(JpImage img) {
         this.diapo.remove(this.img);
         this.img = img;
+        this.diapo.add(this.img);
         final int imgWidth = this.img.getImage().getWidth();
         final int diapoWidth = this.diapo.getWidth();
         final int imgHeight = this.img.getImage().getHeight();
