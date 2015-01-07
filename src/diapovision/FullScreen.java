@@ -56,7 +56,7 @@ public class FullScreen extends javax.swing.JFrame implements ActionListener {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        prev.setText("<");
+        prev.setText("<<");
         prev.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 prevActionPerformed(evt);
@@ -72,7 +72,7 @@ public class FullScreen extends javax.swing.JFrame implements ActionListener {
         });
         buttonPanel.add(btPlay);
 
-        next.setText(">");
+        next.setText(">>");
         next.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nextActionPerformed(evt);
@@ -176,8 +176,8 @@ public class FullScreen extends javax.swing.JFrame implements ActionListener {
         this.img = img;
         this.diapo.add(this.img);
         final int imgWidth = this.img.getImage().getWidth();
-        final int diapoWidth = this.diapo.getWidth();
         final int imgHeight = this.img.getImage().getHeight();
+        final int diapoWidth = this.diapo.getWidth();
         final int diapoHeight = this.diapo.getHeight();
         int width = Math.min(imgWidth, diapoWidth);
         int height = Math.min(imgHeight, diapoHeight);
@@ -185,10 +185,10 @@ public class FullScreen extends javax.swing.JFrame implements ActionListener {
             float ratio = (imgWidth*1.0f)/imgHeight;
             if(ratio>1){
                 width = diapoWidth;
-                height = Math.round(width/ratio);
+                height = Math.round(width*ratio);
             }else{
                 height = diapoHeight;
-                width = Math.round(height/ratio);
+                width = Math.round(height*ratio);
             }
         }
         this.img.redimention(width, height);
