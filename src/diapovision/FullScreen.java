@@ -7,20 +7,28 @@ package diapovision;
 
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
+import javax.swing.Timer;
 
 /**
  *
  * @author arthur
  */
-public class FullScreen extends javax.swing.JFrame {
+public class FullScreen extends javax.swing.JFrame implements ActionListener {
     JpImage img;
     private JpImage[] imgs;
+    private  Timer  timer;
+    private int delay = 3;
+    
     /**
      * Creates new form FullScreen
      */
     public FullScreen() {
         initComponents();
+        timer = new Timer(1000, this);
+        timer.start();
     }
 
     public void start(){
@@ -42,7 +50,9 @@ public class FullScreen extends javax.swing.JFrame {
 
         buttonPanel = new javax.swing.JPanel();
         prev = new javax.swing.JButton();
+        btPlay = new javax.swing.JButton();
         next = new javax.swing.JButton();
+        sliderDelay = new javax.swing.JSlider();
         diapo = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -55,6 +65,14 @@ public class FullScreen extends javax.swing.JFrame {
         });
         buttonPanel.add(prev);
 
+        btPlay.setText("||");
+        btPlay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btPlayActionPerformed(evt);
+            }
+        });
+        buttonPanel.add(btPlay);
+
         next.setText(">");
         next.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -62,6 +80,9 @@ public class FullScreen extends javax.swing.JFrame {
             }
         });
         buttonPanel.add(next);
+
+        sliderDelay.setMaximum(10);
+        buttonPanel.add(sliderDelay);
 
         getContentPane().add(buttonPanel, java.awt.BorderLayout.PAGE_END);
 
@@ -73,7 +94,7 @@ public class FullScreen extends javax.swing.JFrame {
         );
         diapoLayout.setVerticalGroup(
             diapoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 267, Short.MAX_VALUE)
+            .addGap(0, 251, Short.MAX_VALUE)
         );
 
         getContentPane().add(diapo, java.awt.BorderLayout.CENTER);
@@ -92,6 +113,17 @@ public class FullScreen extends javax.swing.JFrame {
         if(pos<=0)pos = imgs.length;
         changeImage(imgs[pos-1]);
     }//GEN-LAST:event_prevActionPerformed
+
+    private void btPlayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPlayActionPerformed
+        if(timer.isRunning()){
+            timer.stop();
+            btPlay.setText(">");
+        }
+        else{
+            timer.start();
+            btPlay.setText("||");
+        }  
+    }//GEN-LAST:event_btPlayActionPerformed
 
     /**
      * @param args the command line arguments
@@ -129,10 +161,12 @@ public class FullScreen extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btPlay;
     private javax.swing.JPanel buttonPanel;
     private javax.swing.JPanel diapo;
     private javax.swing.JButton next;
     private javax.swing.JButton prev;
+    private javax.swing.JSlider sliderDelay;
     // End of variables declaration//GEN-END:variables
 
     void setImages(JpImage[] imgs) {
@@ -155,5 +189,16 @@ public class FullScreen extends javax.swing.JFrame {
         this.img = img;
         this.add(img);
         this.repaint();
+    }
+    
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(((int)(timer.getDelay()/1000))%delay==0){
+            int i = getPos();
+            if(i==imgs.length){
+                changeImage(imgs[0]);
+            }
+            changeImage(imgs[i+1]);
+        }
     }
 }
