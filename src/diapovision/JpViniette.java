@@ -6,8 +6,12 @@
 package diapovision;
 
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import layout.VerticalFlowLayout;
@@ -75,22 +79,27 @@ public class JpViniette extends javax.swing.JPanel {
     private void initComponents() {
 
         panelBouton = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        monter = new javax.swing.JButton();
+        descendre = new javax.swing.JButton();
         panelImage = new javax.swing.JPanel();
 
         setLayout(new java.awt.BorderLayout());
 
-        jButton1.setText("Monter");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        monter.setText("Monter");
+        monter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                monterActionPerformed(evt);
             }
         });
-        panelBouton.add(jButton1);
+        panelBouton.add(monter);
 
-        jButton2.setText("Descendre");
-        panelBouton.add(jButton2);
+        descendre.setText("Descendre");
+        descendre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                descendreActionPerformed(evt);
+            }
+        });
+        panelBouton.add(descendre);
 
         add(panelBouton, java.awt.BorderLayout.WEST);
 
@@ -98,15 +107,54 @@ public class JpViniette extends javax.swing.JPanel {
         add(panelImage, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void monterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_monterActionPerformed
+       monter(this);
+    }//GEN-LAST:event_monterActionPerformed
+
+    private void descendreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_descendreActionPerformed
+        descendre(this);
+    }//GEN-LAST:event_descendreActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton descendre;
+    private javax.swing.JButton monter;
     private javax.swing.JPanel panelBouton;
     private javax.swing.JPanel panelImage;
     // End of variables declaration//GEN-END:variables
+
+    private static void move(JpViniette v, int i){
+        final Container parent = v.getParent();
+        Component[] components = parent.getComponents();
+        int pos = getPosition(components, v);
+        List<Component> l = Arrays.asList(components);
+        if(pos-i>=0 && pos-i<components.length){
+            Collections.swap(l, pos, pos-i);
+        }
+        parent.removeAll();
+        for (Component c : l) {
+            parent.add(c);
+        }
+        parent.repaint();
+        parent.doLayout();
+    }
+    
+    private static void monter(JpViniette v) {
+        move(v,1);
+    }
+    
+    private static void descendre(JpViniette v) {
+        move(v,-1);
+    }
+
+    private static int getPosition(Component[] components, JpViniette v) {
+        int pos = 0;
+        for(Component c : components){
+            if(c == v){
+                return pos;
+            }
+            pos++;
+        }
+        return pos;
+    }
 }
