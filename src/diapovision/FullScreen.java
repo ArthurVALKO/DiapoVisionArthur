@@ -27,7 +27,6 @@ public class FullScreen extends javax.swing.JFrame {
         GraphicsEnvironment graphicsEnvironment=GraphicsEnvironment.getLocalGraphicsEnvironment();
         Rectangle maximumWindowBounds=graphicsEnvironment.getMaximumWindowBounds();
         this.setBounds(maximumWindowBounds);
-        img.redimention(getWidth(), getHeight());
         this.setVisible(true);
     }
 
@@ -64,18 +63,6 @@ public class FullScreen extends javax.swing.JFrame {
         buttonPanel.add(next);
 
         getContentPane().add(buttonPanel, java.awt.BorderLayout.PAGE_END);
-
-        javax.swing.GroupLayout diapoLayout = new javax.swing.GroupLayout(diapo);
-        diapo.setLayout(diapoLayout);
-        diapoLayout.setHorizontalGroup(
-            diapoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        diapoLayout.setVerticalGroup(
-            diapoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 267, Short.MAX_VALUE)
-        );
-
         getContentPane().add(diapo, java.awt.BorderLayout.CENTER);
 
         pack();
@@ -83,7 +70,7 @@ public class FullScreen extends javax.swing.JFrame {
 
     private void nextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextActionPerformed
         int pos = getPos();
-        if(pos>=imgs.length)pos = -1;
+        if(pos>=imgs.length-1)pos = -1;
         changeImage(imgs[pos+1]);
     }//GEN-LAST:event_nextActionPerformed
 
@@ -136,9 +123,9 @@ public class FullScreen extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     void setImages(JpImage[] imgs) {
-        img = imgs[0];
-        this.add(img);
         this.imgs = imgs;
+        img = imgs[0];
+        changeImage(img);
     }
 
     private int getPos() {
@@ -151,9 +138,26 @@ public class FullScreen extends javax.swing.JFrame {
     }
 
     private void changeImage(JpImage img) {
-        this.remove(this.img);
+        this.diapo.remove(this.img);
         this.img = img;
-        this.add(img);
+        final int imgWidth = this.img.getImage().getWidth();
+        final int diapoWidth = this.diapo.getWidth();
+        final int imgHeight = this.img.getImage().getHeight();
+        final int diapoHeight = this.diapo.getHeight();
+        int width = Math.min(imgWidth, diapoWidth);
+        int height = Math.min(imgHeight, diapoHeight);
+        if(width==diapoWidth||height==diapoHeight){
+            float ratio = (imgWidth*1.0f)/imgHeight;
+            if(ratio>1){
+                width = diapoWidth;
+                height = Math.round(width/ratio);
+            }else{
+                height = diapoHeight;
+                width = Math.round(height/ratio);
+            }
+        }
+        this.img.redimention(width, height);
+        this.diapo.doLayout();
         this.repaint();
     }
 }
