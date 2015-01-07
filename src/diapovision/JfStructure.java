@@ -7,7 +7,9 @@ package diapovision;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.GraphicsDevice;
 import java.awt.Image;
+import java.awt.Window;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,6 +19,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import layout.VerticalFlowLayout;
 
@@ -49,6 +52,7 @@ public class JfStructure extends javax.swing.JFrame {
         btSuprimer = new javax.swing.JButton();
         jScrollPane = new javax.swing.JScrollPane();
         panelListe = new javax.swing.JPanel();
+        btPlay = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -68,13 +72,22 @@ public class JfStructure extends javax.swing.JFrame {
 
         jScrollPane.setViewportView(panelListe);
 
+        btPlay.setText("Lecture");
+        btPlay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btPlayActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(btAjouter)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 410, Short.MAX_VALUE)
+                .addGap(164, 164, 164)
+                .addComponent(btPlay)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 187, Short.MAX_VALUE)
                 .addComponent(btSuprimer))
             .addComponent(jScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
@@ -82,8 +95,10 @@ public class JfStructure extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btAjouter, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btSuprimer, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(btAjouter, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(btSuprimer, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(btPlay))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 391, Short.MAX_VALUE))
         );
@@ -113,6 +128,18 @@ public class JfStructure extends javax.swing.JFrame {
         panelListe.add(vignette);
         jScrollPane.setViewportView(panelListe);
     }//GEN-LAST:event_btAjouterActionPerformed
+
+    private void btPlayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPlayActionPerformed
+        if(panelListe.getComponentCount()>0){
+            
+            GraphicsDevice myDevice = null;
+            FullScreen fs = new FullScreen();
+           // Window myWindow = fs;
+            JpViniette pViniette = (JpViniette) panelListe.getComponent(0);
+            fs.add(pViniette.getPImg());
+            fs.start();
+        }
+    }//GEN-LAST:event_btPlayActionPerformed
 
     
     public Image rechercheImage() throws IOException{
@@ -160,6 +187,7 @@ public class JfStructure extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAjouter;
+    private javax.swing.JButton btPlay;
     private javax.swing.JButton btSuprimer;
     private javax.swing.JScrollPane jScrollPane;
     private javax.swing.JPanel panelListe;

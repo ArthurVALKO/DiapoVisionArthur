@@ -17,6 +17,12 @@ import layout.VerticalFlowLayout;
  * @author arthur
  */
 public class JpViniette extends javax.swing.JPanel {
+    
+    private JpImage pImg;
+    
+    public JpImage getPImg(){
+        return pImg;
+    }
 
     static void deleteSelected(JPanel panelListe) {
         final Component[] components = panelListe.getComponents();
@@ -32,8 +38,11 @@ public class JpViniette extends javax.swing.JPanel {
    
     protected boolean selected = false;
     
+    
+    
     public JpViniette(JpImage p) {
         this();
+        pImg = p;
         panelBouton.setLayout(new VerticalFlowLayout());
         p.redimention(250,200);
         panelImage.setBorder(BorderFactory.createRaisedBevelBorder());
