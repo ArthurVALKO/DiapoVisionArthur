@@ -198,7 +198,7 @@ public class FullScreen extends javax.swing.JFrame implements ActionListener {
             float ratio = (imgWidth*1.0f)/imgHeight;
             if(ratio>1){
                 width = diapoWidth;
-                height = Math.round(width*ratio);
+                height = Math.round(width/ratio);
             }else{
                 height = diapoHeight;
                 width = Math.round(height*ratio);
