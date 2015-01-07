@@ -84,18 +84,6 @@ public class FullScreen extends javax.swing.JFrame implements ActionListener {
         buttonPanel.add(sliderDelay);
 
         getContentPane().add(buttonPanel, java.awt.BorderLayout.PAGE_END);
-
-        javax.swing.GroupLayout diapoLayout = new javax.swing.GroupLayout(diapo);
-        diapo.setLayout(diapoLayout);
-        diapoLayout.setHorizontalGroup(
-            diapoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        diapoLayout.setVerticalGroup(
-            diapoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 251, Short.MAX_VALUE)
-        );
-
         getContentPane().add(diapo, java.awt.BorderLayout.CENTER);
 
         pack();
