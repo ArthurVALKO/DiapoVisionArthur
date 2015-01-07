@@ -13,7 +13,8 @@ import java.awt.Rectangle;
  * @author arthur
  */
 public class FullScreen extends javax.swing.JFrame {
-
+    JpImage img;
+    public void setPImg
     /**
      * Creates new form FullScreen
      */
@@ -21,11 +22,11 @@ public class FullScreen extends javax.swing.JFrame {
         initComponents();
     }
     public void start(){
-         setUndecorated(true);
-        setVisible(true);
+                
+        this.setVisible(true);
         GraphicsEnvironment graphicsEnvironment=GraphicsEnvironment.getLocalGraphicsEnvironment();
         Rectangle maximumWindowBounds=graphicsEnvironment.getMaximumWindowBounds();
-        setBounds(maximumWindowBounds);
+        this.setBounds(maximumWindowBounds);
     }
 
     /**
