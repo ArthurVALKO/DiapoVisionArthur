@@ -29,6 +29,7 @@ public class FullScreen extends javax.swing.JFrame implements ActionListener {
         initComponents();
         timer = new Timer(1000, this);
         timer.start();
+        sliderDelay.setValue(delay);
     }
 
     public void start(){
@@ -81,6 +82,13 @@ public class FullScreen extends javax.swing.JFrame implements ActionListener {
         buttonPanel.add(next);
 
         sliderDelay.setMaximum(10);
+        sliderDelay.setMinimum(1);
+        sliderDelay.setValue(3);
+        sliderDelay.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                sliderDelayStateChanged(evt);
+            }
+        });
         buttonPanel.add(sliderDelay);
 
         getContentPane().add(buttonPanel, java.awt.BorderLayout.PAGE_END);
@@ -111,6 +119,10 @@ public class FullScreen extends javax.swing.JFrame implements ActionListener {
             btPlay.setText("||");
         }  
     }//GEN-LAST:event_btPlayActionPerformed
+
+    private void sliderDelayStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sliderDelayStateChanged
+        delay = sliderDelay.getValue();
+    }//GEN-LAST:event_sliderDelayStateChanged
 
     /**
      * @param args the command line arguments
@@ -161,7 +173,7 @@ public class FullScreen extends javax.swing.JFrame implements ActionListener {
         img = imgs[0];
         changeImage(img);
     }
-
+     
     private int getPos() {
         for(int i = 0; i < imgs.length; i++){
             if(img == imgs[i]){
@@ -169,8 +181,9 @@ public class FullScreen extends javax.swing.JFrame implements ActionListener {
             }
         }
         return 0;
+        
     }
-
+    
     private void changeImage(JpImage img) {
         this.diapo.remove(this.img);
         this.img = img;
@@ -196,16 +209,19 @@ public class FullScreen extends javax.swing.JFrame implements ActionListener {
         this.repaint();
     }
     
+    
     @Override
     public void actionPerformed(ActionEvent e) {
         t++;
-        if(t==delay){
+        if(t>delay){
             t=0;
             int i = getPos();
-            if(i==imgs.length){
+            if(i==(imgs.length)-1){
                 changeImage(imgs[0]);
             }
+            else{
             changeImage(imgs[i+1]);
+            }
         }
     }
 }
