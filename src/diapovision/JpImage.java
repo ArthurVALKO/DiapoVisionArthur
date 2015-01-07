@@ -11,6 +11,9 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -18,14 +21,20 @@ import java.awt.image.BufferedImage;
  */
 public class JpImage extends javax.swing.JPanel {
 
-    private Image image;
-   
-    public JpImage(Image f) {
-       image = f;        
+    private File file;
+    private BufferedImage image;
+
+    public JpImage(File f) throws IOException {
+        this();
+        file = f;
+        image = ImageIO.read(f);
+        redimention(image.getWidth(), image.getHeight());
     }
-    public Image getImage(){
+
+    public Image getImage() {
         return image;
     }
+
     public BufferedImage redimention(int width, int height) {
         BufferedImage buf = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = buf.createGraphics();
@@ -35,8 +44,7 @@ public class JpImage extends javax.swing.JPanel {
         setPreferredSize(new Dimension(width, height));
         return buf;
     }
-            
-            
+
     public JpImage() {
         initComponents();
     }
@@ -64,9 +72,12 @@ public class JpImage extends javax.swing.JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(redimention(this.getWidth(),this.getHeight()), 0,0, null);//To change body of generated methods, choose Tools | Templates.
+        g.drawImage(redimention(this.getWidth(), this.getHeight()), 0, 0, null);//To change body of generated methods, choose Tools | Templates.
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
+    JpImage originalImage() throws IOException {
+        return new JpImage(file);
+    }
 }

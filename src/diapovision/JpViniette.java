@@ -9,6 +9,7 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -21,6 +22,17 @@ import layout.VerticalFlowLayout;
  * @author arthur
  */
 public class JpViniette extends javax.swing.JPanel {
+
+    static JpImage[] getImages(JPanel panelListe) {
+        List<JpImage> l = new ArrayList<>();
+        for(Component c : panelListe.getComponents()){
+            if(c instanceof JpViniette){
+                JpViniette v = (JpViniette) c;
+                l.add(v.pImg);
+            }
+        }
+        return (JpImage[]) l.toArray(new JpImage[l.size()]);
+    }
     
     private JpImage pImg;
     

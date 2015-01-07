@@ -5,8 +5,9 @@
  */
 package diapovision;
 
+import java.awt.GraphicsDevice;
 import java.awt.Image;
-import java.awt.Window;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -14,7 +15,6 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import layout.VerticalFlowLayout;
 
@@ -108,7 +108,7 @@ public class JfStructure extends javax.swing.JFrame {
     }//GEN-LAST:event_btSuprimerActionPerformed
 
     private void btAjouterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAjouterActionPerformed
-        Image[] imgs;
+        JpImage[] imgs;
         
         try {
              imgs = rechercheImage();
@@ -117,9 +117,8 @@ public class JfStructure extends javax.swing.JFrame {
              return;
          }
         if(imgs == null) return;
-        for(Image img : imgs){
-            JpImage pImg = new JpImage(img);
-            JpViniette vignette = new JpViniette(pImg);
+        for(JpImage img : imgs){
+            JpViniette vignette = new JpViniette(img);
             panelListe.add(vignette);
         }
         jScrollPane.setViewportView(panelListe);
@@ -128,17 +127,16 @@ public class JfStructure extends javax.swing.JFrame {
     private void btPlayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPlayActionPerformed
         if(panelListe.getComponentCount()>0){
             
-            GraphicsDevice myDevice = null;
             FullScreen fs = new FullScreen();
-           // Window myWindow = fs;
             JpViniette pViniette = (JpViniette) panelListe.getComponent(0);
-            fs.add(pViniette.getPImg());
+            ;
+            fs.setImages(JpViniette.getImages(panelListe));
             fs.start();
         }
     }//GEN-LAST:event_btPlayActionPerformed
 
     
-    public Image[] rechercheImage() throws IOException{
+    public JpImage[] rechercheImage() throws IOException{
         JFileChooser recherche = new JFileChooser();
         recherche.addChoosableFileFilter(new FileNameExtensionFilter("Image files", ImageIO.getReaderFileSuffixes()));
         recherche.setAcceptAllFileFilterUsed(false);
@@ -148,11 +146,10 @@ public class JfStructure extends javax.swing.JFrame {
             return null;
         }
         final File[] selectedFiles = recherche.getSelectedFiles();        
-        Image[] images = new Image[selectedFiles.length];
+        JpImage[] images = new JpImage[selectedFiles.length];
         int i = 0;
         for(File selectedFile: selectedFiles){
-            Image image = ImageIO.read(selectedFile);
-            images[i++] = image;
+            images[i++] = new JpImage(selectedFile);
         }        
         return images;
     }

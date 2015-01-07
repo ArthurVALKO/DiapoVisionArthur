@@ -7,6 +7,7 @@ package diapovision;
 
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
+import javax.swing.BorderFactory;
 
 /**
  *
@@ -14,19 +15,20 @@ import java.awt.Rectangle;
  */
 public class FullScreen extends javax.swing.JFrame {
     JpImage img;
-    public void setPImg
+    private JpImage[] imgs;
     /**
      * Creates new form FullScreen
      */
     public FullScreen() {
         initComponents();
     }
+
     public void start(){
-                
-        this.setVisible(true);
         GraphicsEnvironment graphicsEnvironment=GraphicsEnvironment.getLocalGraphicsEnvironment();
         Rectangle maximumWindowBounds=graphicsEnvironment.getMaximumWindowBounds();
         this.setBounds(maximumWindowBounds);
+        img.redimention(getWidth(), getHeight());
+        this.setVisible(true);
     }
 
     /**
@@ -38,21 +40,58 @@ public class FullScreen extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        buttonPanel = new javax.swing.JPanel();
+        prev = new javax.swing.JButton();
+        next = new javax.swing.JButton();
+        diapo = new javax.swing.JPanel();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        prev.setText("<");
+        prev.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                prevActionPerformed(evt);
+            }
+        });
+        buttonPanel.add(prev);
+
+        next.setText(">");
+        next.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nextActionPerformed(evt);
+            }
+        });
+        buttonPanel.add(next);
+
+        getContentPane().add(buttonPanel, java.awt.BorderLayout.PAGE_END);
+
+        javax.swing.GroupLayout diapoLayout = new javax.swing.GroupLayout(diapo);
+        diapo.setLayout(diapoLayout);
+        diapoLayout.setHorizontalGroup(
+            diapoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 400, Short.MAX_VALUE)
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+        diapoLayout.setVerticalGroup(
+            diapoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 267, Short.MAX_VALUE)
         );
+
+        getContentPane().add(diapo, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void nextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextActionPerformed
+        int pos = getPos();
+        if(pos>=imgs.length)pos = -1;
+        changeImage(imgs[pos+1]);
+    }//GEN-LAST:event_nextActionPerformed
+
+    private void prevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prevActionPerformed
+        int pos = getPos();
+        if(pos<=0)pos = imgs.length;
+        changeImage(imgs[pos-1]);
+    }//GEN-LAST:event_prevActionPerformed
 
     /**
      * @param args the command line arguments
@@ -90,5 +129,31 @@ public class FullScreen extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel buttonPanel;
+    private javax.swing.JPanel diapo;
+    private javax.swing.JButton next;
+    private javax.swing.JButton prev;
     // End of variables declaration//GEN-END:variables
+
+    void setImages(JpImage[] imgs) {
+        img = imgs[0];
+        this.add(img);
+        this.imgs = imgs;
+    }
+
+    private int getPos() {
+        for(int i = 0; i < imgs.length; i++){
+            if(img == imgs[i]){
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    private void changeImage(JpImage img) {
+        this.remove(this.img);
+        this.img = img;
+        this.add(img);
+        this.repaint();
+    }
 }
