@@ -5,15 +5,10 @@
  */
 package diapovision;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.GraphicsDevice;
 import java.awt.Image;
 import java.awt.Window;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -36,6 +31,7 @@ public class JfStructure extends javax.swing.JFrame {
         initComponents();
         panelListe.setLayout(new VerticalFlowLayout());
         panelListe.setBorder(BorderFactory.createLoweredBevelBorder());
+        jScrollPane.setViewportView(panelListe);
     }
    
 
@@ -108,24 +104,24 @@ public class JfStructure extends javax.swing.JFrame {
 
     private void btSuprimerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSuprimerActionPerformed
         JpViniette.deleteSelected(panelListe);
-        panelListe.repaint();
-        panelListe.doLayout();
-        jScrollPane.doLayout();
-//        this.repaint();
+        jScrollPane.setViewportView(panelListe);
     }//GEN-LAST:event_btSuprimerActionPerformed
 
     private void btAjouterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAjouterActionPerformed
-        Image img=null;
+        Image[] imgs;
         
-       // System.out.println("new picture "+dv.liste.lastIndexOf(img)+"  "+dv.liste.size());
         try {
-             img = rechercheImage();
+             imgs = rechercheImage();
          } catch (IOException ex) {
              Logger.getLogger(JfStructure.class.getName()).log(Level.SEVERE, null, ex);
+             return;
          }
-        JpImage pImg = new JpImage(img);
-        JpViniette vignette = new JpViniette(pImg);
-        panelListe.add(vignette);
+        if(imgs == null) return;
+        for(Image img : imgs){
+            JpImage pImg = new JpImage(img);
+            JpViniette vignette = new JpViniette(pImg);
+            panelListe.add(vignette);
+        }
         jScrollPane.setViewportView(panelListe);
     }//GEN-LAST:event_btAjouterActionPerformed
 
@@ -142,13 +138,23 @@ public class JfStructure extends javax.swing.JFrame {
     }//GEN-LAST:event_btPlayActionPerformed
 
     
-    public Image rechercheImage() throws IOException{
+    public Image[] rechercheImage() throws IOException{
         JFileChooser recherche = new JFileChooser();
-        recherche.showOpenDialog(this);
         recherche.addChoosableFileFilter(new FileNameExtensionFilter("Image files", ImageIO.getReaderFileSuffixes()));
         recherche.setAcceptAllFileFilterUsed(false);
-        Image image = ImageIO.read(recherche.getSelectedFile());        
-        return image;
+        recherche.setMultiSelectionEnabled(true);
+        int showOpenDialog = recherche.showOpenDialog(this);
+        if(showOpenDialog==JFileChooser.CANCEL_OPTION||showOpenDialog==JFileChooser.ERROR_OPTION){
+            return null;
+        }
+        final File[] selectedFiles = recherche.getSelectedFiles();        
+        Image[] images = new Image[selectedFiles.length];
+        int i = 0;
+        for(File selectedFile: selectedFiles){
+            Image image = ImageIO.read(selectedFile);
+            images[i++] = image;
+        }        
+        return images;
     }
     /**
      * @param args the command line arguments
