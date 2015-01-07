@@ -8,7 +8,6 @@ package diapovision;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Collections;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import layout.VerticalFlowLayout;
@@ -56,7 +55,6 @@ public class JpViniette extends javax.swing.JPanel {
     public JpViniette() {
         initComponents();
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -92,7 +90,7 @@ public class JpViniette extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       getParent().
+       
     }//GEN-LAST:event_jButton1ActionPerformed
 
 
